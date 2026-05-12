@@ -11,14 +11,22 @@ class Complaint extends Model
         'reference_number',
         'user_id',
         'department_id',
+        'category_id',
         'title',
         'description',
-        'category',
         'location',
         'status',
         'priority',
         'remarks',
     ];
+
+    public function department() {
+    return $this->belongsTo(Department::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 
     public function user(): BelongsTo
     {
