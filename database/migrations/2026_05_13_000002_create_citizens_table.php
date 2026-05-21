@@ -9,17 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void {
-        Schema::create('users', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::create('citizens', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('contact_number')->nullable(); // For SMS alerts later
             $table->string('password');
-            $table->string('role')->default('citizen'); // citizen, personnel, admin
-            $table->foreignId('department_id')->nullable()->constrained('departments'); 
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
+            $table->boolean('is_anonymous')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            
+            $table->index('email');
         });
     }
 
@@ -28,8 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('citizens');
     }
 };

@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\User;
+use App\Models\Personnel;
+use App\Models\Citizen;
 
 return [
 
@@ -42,6 +43,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'personnel' => [
+            'driver' => 'session',
+            'provider' => 'personnel',
+        ],
+        'citizen' => [
+            'driver' => 'session',
+            'provider' => 'citizens',
+        ],
     ],
 
     /*
@@ -64,7 +73,17 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => env('AUTH_MODEL', Personnel::class),
+        ],
+
+        'personnel' => [
+            'driver' => 'eloquent',
+            'model' => Personnel::class,
+        ],
+
+        'citizens' => [
+            'driver' => 'eloquent',
+            'model' => Citizen::class,
         ],
 
         // 'users' => [
