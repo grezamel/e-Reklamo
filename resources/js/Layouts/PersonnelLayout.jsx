@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
+import logo from '@/Assets/images/eReklamo_logo.png';
 
 export default function PersonnelLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,36 +42,42 @@ export default function PersonnelLayout({ children }) {
         router.post(route('personnel.logout'));
     };
 
-    const isActive = (href) => window.location.pathname === new URL(href).pathname;
+    const isActive = (href) => {
+        try { return window.location.pathname === new URL(href).pathname; }
+        catch { return false; }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 flex">
-            {/* Sidebar overlay (mobile) */}
+            {/* Mobile overlay */}
             {sidebarOpen && (
                 <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
             )}
 
             {/* Sidebar */}
-            <aside className={`fixed top-0 left-0 h-full w-64 bg-blue-900 text-white z-40 transform transition-transform duration-200 flex flex-col
-                ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:z-auto`}>
-                {/* Logo */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-blue-800">
-                    <Link href={route('personnel.dashboard')} className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-                            </svg>
-                        </div>
-                        <span className="font-bold">e-Reklamo</span>
+            <aside className={`
+                fixed top-0 left-0 h-screen w-64 bg-[#1e3a8a] text-white z-40 flex flex-col
+                transform transition-transform duration-200
+                ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                lg:translate-x-0 lg:sticky lg:top-0
+            `}>
+                {/* Sidebar logo */}
+                <div className="flex items-center justify-between px-4 py-4 border-b border-blue-800">
+                    <Link href={route('personnel.dashboard')} className="flex items-center gap-2.5">
+                        <img src={logo} alt="e-Reklamo"
+                            className="h-9 w-9 object-contain rounded-full bg-white/10 p-0.5 flex-shrink-0" />
+                        <span className="font-bold text-base leading-none">
+                            <span className="text-emerald-400">e-</span>Reklamo
+                        </span>
                     </Link>
-                    <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white/60 hover:text-white">
+                    <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white/60 hover:text-white p-1">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
 
-                {/* Nav */}
+                {/* Nav items */}
                 <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                     {navItems.map(item => (
                         <Link key={item.href} href={item.href}
@@ -85,14 +92,15 @@ export default function PersonnelLayout({ children }) {
                     ))}
                 </nav>
 
-                {/* User info */}
-                <div className="px-4 py-4 border-t border-blue-800">
-                    <Link href={route('personnel.profile.edit')} className="flex items-center gap-3 mb-3 hover:opacity-80 transition">
+                {/* User footer */}
+                <div className="px-4 py-4 border-t border-blue-800 space-y-2">
+                    <Link href={route('personnel.profile.edit')}
+                        className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-blue-800 transition">
                         <div className="w-9 h-9 bg-emerald-500 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                             {personnel?.name?.charAt(0)?.toUpperCase()}
                         </div>
                         <div className="min-w-0">
-                            <p className="text-sm font-medium text-white truncate">{personnel?.name}</p>
+                            <p className="text-sm font-semibold text-white truncate">{personnel?.name}</p>
                             <p className="text-xs text-blue-300 truncate">{personnel?.email}</p>
                         </div>
                     </Link>
@@ -107,19 +115,20 @@ export default function PersonnelLayout({ children }) {
             </aside>
 
             {/* Main content */}
-            <div className="flex-1 flex flex-col min-w-0">
-                {/* Top bar */}
-                <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3 sticky top-0 z-20">
-                    <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100">
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                {/* Top bar (mobile only — shows hamburger) */}
+                <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3 sticky top-0 z-20 lg:hidden">
+                    <button onClick={() => setSidebarOpen(true)} className="p-1.5 rounded-lg hover:bg-gray-100 flex-shrink-0">
                         <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <div className="flex-1" />
-                    <span className="text-sm text-gray-500">LGU Personnel Portal</span>
+                    <img src={logo} alt="e-Reklamo" className="h-7 w-7 object-contain" />
+                    <span className="font-bold text-sm text-blue-900">
+                        <span className="text-emerald-600">e-</span>Reklamo
+                    </span>
                 </header>
 
-                {/* Flash messages */}
                 {flash?.success && (
                     <div className="mx-4 mt-4">
                         <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">

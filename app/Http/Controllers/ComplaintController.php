@@ -84,6 +84,7 @@ class ComplaintController extends Controller
 
         $validated = $request->validate([
             'status' => 'required|in:acknowledged,in-progress,resolved,rejected',
+            'priority' => 'nullable|in:low,medium,high,urgent',
             'remarks' => 'nullable|string|max:1000',
             'assigned_to' => 'nullable|exists:personnel,id',
         ]);
@@ -92,6 +93,7 @@ class ComplaintController extends Controller
 
         $complaint->update([
             'status' => $validated['status'],
+            'priority' => $validated['priority'] ?? $complaint->priority,
             'remarks' => $validated['remarks'] ?? $complaint->remarks,
             'assigned_to' => $validated['assigned_to'] ?? $complaint->assigned_to,
             'acknowledged_at' => $validated['status'] === 'acknowledged' && !$complaint->acknowledged_at

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import InputError from '@/Components/InputError';
 import { Head, Link, useForm } from '@inertiajs/react';
+import logo from '@/Assets/images/eReklamo_logo.png';
+import topEllipse from '@/Assets/images/green_top_ellipse.png';
+import bottomEllipse from '@/Assets/images/green_bottom_ellipse.png';
 
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -18,30 +21,31 @@ export default function Login({ status, canResetPassword }) {
     return (
         <>
             <Head title="Login - e-Reklamo" />
-            <div className="min-h-screen bg-gray-50 relative overflow-hidden flex items-center justify-center px-4 py-8">
-                {/* Decorative circles */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-200 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-200 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50 pointer-events-none" />
+            <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center px-4 py-8">
+                {/* Responsive ellipses */}
+                <img src={topEllipse} alt="" aria-hidden="true"
+                    className="pointer-events-none absolute top-0 right-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-[420px] lg:h-[420px] -translate-y-1/3 translate-x-1/3 select-none" />
+                <img src={bottomEllipse} alt="" aria-hidden="true"
+                    className="pointer-events-none absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-[420px] lg:h-[420px] translate-y-1/3 -translate-x-1/3 select-none" />
 
                 <div className="relative z-10 w-full max-w-sm">
                     {/* Logo */}
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-full mb-3">
-                            <svg className="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-                            </svg>
-                        </div>
-                        <h1 className="text-2xl font-bold text-blue-900">e-Reklamo</h1>
+                        <img src={logo} alt="e-Reklamo logo" className="h-16 w-16 mx-auto mb-3 object-contain" />
+                        <h1 className="text-2xl font-bold">
+                            <span className="text-emerald-600">e-</span><span className="text-blue-900">Reklamo</span>
+                        </h1>
                         <p className="text-gray-500 text-sm mt-1">Welcome!</p>
                         <p className="text-xs text-gray-400 mt-1">Sign up or login and start voicing out community issues.</p>
                     </div>
 
                     {/* Tabs */}
                     <div className="flex mb-6 border-b border-gray-200">
-                        <button className="flex-1 py-2 text-sm font-semibold text-emerald-600 border-b-2 border-emerald-500">
+                        <button className="flex-1 py-2.5 text-sm font-semibold text-emerald-600 border-b-2 border-emerald-500">
                             Login
                         </button>
-                        <Link href={route('register')} className="flex-1 py-2 text-sm font-semibold text-gray-400 text-center hover:text-emerald-600 transition">
+                        <Link href={route('register')}
+                            className="flex-1 py-2.5 text-sm font-semibold text-gray-400 text-center hover:text-emerald-600 transition">
                             Sign up
                         </Link>
                     </div>
@@ -54,25 +58,18 @@ export default function Login({ status, canResetPassword }) {
 
                     <form onSubmit={submit} className="space-y-4">
                         <div>
-                            <input
-                                type="email"
-                                value={data.email}
+                            <input type="email" value={data.email}
                                 onChange={e => setData('email', e.target.value)}
-                                placeholder="Email"
-                                autoFocus
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-                            />
+                                placeholder="Email" autoFocus
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" />
                             <InputError message={errors.email} className="mt-1" />
                         </div>
 
                         <div className="relative">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                value={data.password}
+                            <input type={showPassword ? 'text' : 'password'} value={data.password}
                                 onChange={e => setData('password', e.target.value)}
                                 placeholder="Password"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 pr-10"
-                            />
+                                className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" />
                             <button type="button" onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                 {showPassword
@@ -85,12 +82,14 @@ export default function Login({ status, canResetPassword }) {
 
                         <div className="flex items-center justify-between text-sm">
                             <label className="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" checked={data.remember} onChange={e => setData('remember', e.target.checked)}
+                                <input type="checkbox" checked={data.remember}
+                                    onChange={e => setData('remember', e.target.checked)}
                                     className="w-4 h-4 rounded border-gray-300 text-emerald-600" />
                                 <span className="text-gray-600">Remember me</span>
                             </label>
                             {canResetPassword && (
-                                <Link href={route('password.request')} className="text-emerald-600 hover:text-emerald-700 font-semibold">
+                                <Link href={route('password.request')}
+                                    className="text-emerald-600 hover:text-emerald-700 font-semibold">
                                     Forgot password?
                                 </Link>
                             )}

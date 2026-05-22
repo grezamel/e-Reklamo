@@ -52,6 +52,31 @@ class CitizenController extends Controller
         ]);
     }
 
+    public function destroyComplaint(Complaint $complaint)
+    {
+        $citizen = Auth::guard('citizen')->user();
+
+        if ($complaint->citizen_id !== $citizen->id) {
+            abort(403);
+        }
+
+        // Only allow deletion of pending complaints
+        if (!in_array($complaint->status, ['pending', 'rejected'])) {
+            return back()->withErrors(['error' => 'Only pending or rejected complaints can be deleted.']);
+        }
+
+        if ($complaint->photos) {
+            foreach ($complaint->photos as $photo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($photo);
+            }
+        }
+
+        $complaint->delete();
+
+        return redirect()->route('citizen.complaints.index')
+            ->with('success', 'Complaint deleted successfully.');
+    }
+
     public function showComplaint(Complaint $complaint)
     {
         $citizen = Auth::guard('citizen')->user();

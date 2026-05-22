@@ -34,6 +34,7 @@ Route::middleware('auth:citizen')->prefix('citizen')->name('citizen.')->group(fu
     Route::get('/complaints/new', [CitizenController::class, 'createComplaint'])->name('complaints.new');
     Route::post('/complaints', [ComplaintController::class, 'store'])->name('complaints.store');
     Route::get('/complaints/{complaint}', [CitizenController::class, 'showComplaint'])->name('complaints.show');
+    Route::delete('/complaints/{complaint}', [CitizenController::class, 'destroyComplaint'])->name('complaints.destroy');
     Route::get('/profile', [CitizenController::class, 'editProfile'])->name('profile.edit');
     Route::patch('/profile', [CitizenController::class, 'updateProfile'])->name('profile.update');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

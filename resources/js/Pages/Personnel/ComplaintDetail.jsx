@@ -1,28 +1,39 @@
 import { useState } from 'react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import PersonnelLayout from '@/Layouts/PersonnelLayout';
 
 const statusConfig = {
-    pending: { label: 'Pending', cls: 'bg-yellow-100 text-yellow-800' },
+    pending:      { label: 'Pending',      cls: 'bg-yellow-100 text-yellow-800' },
     acknowledged: { label: 'Acknowledged', cls: 'bg-blue-100 text-blue-800' },
-    'in-progress': { label: 'In Progress', cls: 'bg-purple-100 text-purple-800' },
-    resolved: { label: 'Resolved', cls: 'bg-green-100 text-green-800' },
-    rejected: { label: 'Rejected', cls: 'bg-red-100 text-red-800' },
+    'in-progress':{ label: 'In Progress',  cls: 'bg-purple-100 text-purple-800' },
+    resolved:     { label: 'Resolved',     cls: 'bg-green-100 text-green-800' },
+    rejected:     { label: 'Rejected',     cls: 'bg-red-100 text-red-800' },
+};
+
+const priorityConfig = {
+    low:    { label: 'Low',    cls: 'bg-blue-100 text-blue-700' },
+    medium: { label: 'Medium', cls: 'bg-yellow-100 text-yellow-700' },
+    high:   { label: 'High',   cls: 'bg-orange-100 text-orange-700' },
+    urgent: { label: 'Urgent', cls: 'bg-red-100 text-red-700' },
 };
 
 export default function ComplaintDetail({ complaint, personnelList = [] }) {
-    const [showStatusForm, setShowStatusForm] = useState(false);
+    const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-    const statusForm = useForm({
-        status: complaint.status,
-        remarks: complaint.remarks || '',
+    const form = useForm({
+        status:      complaint.status,
+        priority:    complaint.priority,
+        remarks:     complaint.remarks || '',
         assigned_to: complaint.assigned_to || '',
     });
 
-    const submitStatus = (e) => {
+    const submitUpdate = (e) => {
         e.preventDefault();
-        statusForm.post(route('personnel.complaints.updateStatus', complaint.id), {
-            onSuccess: () => setShowStatusForm(false),
+        form.post(route('personnel.complaints.updateStatus', complaint.id), {
+            onSuccess: () => {
+                setShowUpdateForm(false);
+                form.reset();
+            },
         });
     };
 
@@ -38,7 +49,7 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                     Back to complaints
                 </Link>
 
-                {/* Header */}
+                {/* Header card */}
                 <div className="bg-white rounded-xl shadow-sm p-5 mb-4">
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                         <div>
@@ -46,24 +57,27 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                             <h1 className="text-lg font-bold text-gray-900">{complaint.title}</h1>
                             <p className="text-sm text-gray-500 mt-1">{complaint.location}</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                             <span className={`text-xs px-3 py-1.5 rounded-full font-semibold ${statusConfig[complaint.status]?.cls}`}>
                                 {statusConfig[complaint.status]?.label}
                             </span>
-                            <button onClick={() => setShowStatusForm(!showStatusForm)}
+                            <span className={`text-xs px-3 py-1.5 rounded-full font-semibold ${priorityConfig[complaint.priority]?.cls}`}>
+                                {priorityConfig[complaint.priority]?.label}
+                            </span>
+                            <button onClick={() => setShowUpdateForm(!showUpdateForm)}
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition">
-                                Update Status
+                                Update
                             </button>
                         </div>
                     </div>
 
-                    {/* Status update form */}
-                    {showStatusForm && (
-                        <form onSubmit={submitStatus} className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                    {/* Update form */}
+                    {showUpdateForm && (
+                        <form onSubmit={submitUpdate} className="mt-4 pt-4 border-t border-gray-100 space-y-3">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1">New Status</label>
-                                    <select value={statusForm.data.status} onChange={e => statusForm.setData('status', e.target.value)}
+                                    <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                                    <select value={form.data.status} onChange={e => form.setData('status', e.target.value)}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
                                         <option value="acknowledged">Acknowledged</option>
                                         <option value="in-progress">In Progress</option>
@@ -72,8 +86,18 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                                     </select>
                                 </div>
                                 <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+                                    <select value={form.data.priority} onChange={e => form.setData('priority', e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="urgent">Urgent</option>
+                                    </select>
+                                </div>
+                                <div>
                                     <label className="block text-xs font-medium text-gray-700 mb-1">Assign to</label>
-                                    <select value={statusForm.data.assigned_to} onChange={e => statusForm.setData('assigned_to', e.target.value)}
+                                    <select value={form.data.assigned_to} onChange={e => form.setData('assigned_to', e.target.value)}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
                                         <option value="">Unassigned</option>
                                         {personnelList.map(p => (
@@ -81,20 +105,20 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                                         ))}
                                     </select>
                                 </div>
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1">Remarks</label>
-                                <textarea value={statusForm.data.remarks} onChange={e => statusForm.setData('remarks', e.target.value)}
-                                    rows={3} placeholder="Add remarks or notes..."
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500 resize-none" />
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1">Remarks</label>
+                                    <textarea value={form.data.remarks} onChange={e => form.setData('remarks', e.target.value)}
+                                        rows={2} placeholder="Add notes..."
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500 resize-none" />
+                                </div>
                             </div>
                             <div className="flex gap-2">
-                                <button type="submit" disabled={statusForm.processing}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50">
-                                    {statusForm.processing ? 'Saving...' : 'Save Changes'}
+                                <button type="submit" disabled={form.processing}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50">
+                                    {form.processing ? 'Saving...' : 'Save Changes'}
                                 </button>
-                                <button type="button" onClick={() => setShowStatusForm(false)}
-                                    className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
+                                <button type="button" onClick={() => setShowUpdateForm(false)}
+                                    className="px-5 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
                                     Cancel
                                 </button>
                             </div>
@@ -103,7 +127,7 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    {/* Main details */}
+                    {/* Details + photos */}
                     <div className="lg:col-span-2 space-y-4">
                         <div className="bg-white rounded-xl shadow-sm p-5">
                             <h2 className="font-semibold text-gray-900 mb-3">Complaint Details</h2>
@@ -118,7 +142,9 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-500">Priority</p>
-                                    <p className="font-medium text-gray-900 capitalize">{complaint.priority}</p>
+                                    <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-semibold ${priorityConfig[complaint.priority]?.cls}`}>
+                                        {priorityConfig[complaint.priority]?.label}
+                                    </span>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-500">Filed on</p>
@@ -147,7 +173,6 @@ export default function ComplaintDetail({ complaint, personnelList = [] }) {
                             )}
                         </div>
 
-                        {/* Photos */}
                         {complaint.photos && complaint.photos.length > 0 && (
                             <div className="bg-white rounded-xl shadow-sm p-5">
                                 <h2 className="font-semibold text-gray-900 mb-3">Photos</h2>

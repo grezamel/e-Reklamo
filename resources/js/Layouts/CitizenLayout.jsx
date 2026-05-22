@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
+import logo from '@/Assets/images/eReklamo_logo.png';
 
 export default function CitizenLayout({ children }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const { auth, flash } = usePage().props;
-    const citizen = auth?.citizen;
 
     const navItems = [
         {
@@ -31,18 +31,16 @@ export default function CitizenLayout({ children }) {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Top nav */}
             <nav className="bg-emerald-600 text-white shadow-md sticky top-0 z-40">
                 <div className="max-w-5xl mx-auto px-4">
-                    <div className="flex items-center justify-between h-14">
-                        <Link href={route('citizen.dashboard')} className="flex items-center gap-2">
-                            <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center">
-                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-                                </svg>
-                            </div>
-                            <span className="font-bold text-sm">e-Reklamo</span>
-                            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">Citizen</span>
+                    <div className="flex items-center justify-between h-16">
+                        {/* Logo + title */}
+                        <Link href={route('citizen.dashboard')} className="flex items-center gap-2.5">
+                            <img src={logo} alt="e-Reklamo" className="h-9 w-9 object-contain rounded-full bg-white/10 p-0.5" />
+                            <span className="font-bold text-base leading-none">
+                                <span className="text-emerald-200">e-</span>Reklamo
+                            </span>
+                            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full hidden sm:inline">Citizen</span>
                         </Link>
 
                         {/* Desktop nav */}
@@ -67,10 +65,11 @@ export default function CitizenLayout({ children }) {
                             </button>
                         </div>
 
-                        {/* Mobile menu button */}
+                        {/* Mobile hamburger */}
                         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-lg hover:bg-white/10">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                    d={menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
                             </svg>
                         </button>
                     </div>
@@ -104,11 +103,17 @@ export default function CitizenLayout({ children }) {
                 )}
             </nav>
 
-            {/* Flash messages */}
             {flash?.success && (
                 <div className="max-w-5xl mx-auto px-4 pt-4">
                     <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
                         {flash.success}
+                    </div>
+                </div>
+            )}
+            {flash?.error && (
+                <div className="max-w-5xl mx-auto px-4 pt-4">
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                        {flash.error}
                     </div>
                 </div>
             )}
