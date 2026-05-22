@@ -69,7 +69,8 @@ class ComplaintController extends Controller
             'updated_by_name' => 'System',
         ]);
 
-        return redirect()->back()->with('success', 'Complaint submitted! Reference: ' . $referenceNumber);
+        return redirect()->route('citizen.complaints.index')
+            ->with('success', 'Complaint submitted! Reference: ' . $referenceNumber);
     }
 
     /**
@@ -95,7 +96,9 @@ class ComplaintController extends Controller
             'status' => $validated['status'],
             'priority' => $validated['priority'] ?? $complaint->priority,
             'remarks' => $validated['remarks'] ?? $complaint->remarks,
-            'assigned_to' => $validated['assigned_to'] ?? $complaint->assigned_to,
+            'assigned_to' => array_key_exists('assigned_to', $validated)
+                ? ($validated['assigned_to'] ?: null)
+                : $complaint->assigned_to,
             'acknowledged_at' => $validated['status'] === 'acknowledged' && !$complaint->acknowledged_at
                 ? now()
                 : $complaint->acknowledged_at,

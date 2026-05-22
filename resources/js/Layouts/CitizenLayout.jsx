@@ -36,7 +36,9 @@ export default function CitizenLayout({ children }) {
                     <div className="flex items-center justify-between h-16">
                         {/* Logo + title */}
                         <Link href={route('citizen.dashboard')} className="flex items-center gap-2.5">
-                            <img src={logo} alt="e-Reklamo" className="h-9 w-9 object-contain rounded-full bg-white/10 p-0.5" />
+                            <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <img src={logo} alt="e-Reklamo" className="h-7 w-7 object-contain" />
+                            </div>
                             <span className="font-bold text-base leading-none">
                                 <span className="text-emerald-200">e-</span>Reklamo
                             </span>

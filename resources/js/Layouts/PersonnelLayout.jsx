@@ -64,8 +64,10 @@ export default function PersonnelLayout({ children }) {
                 {/* Sidebar logo */}
                 <div className="flex items-center justify-between px-4 py-4 border-b border-blue-800">
                     <Link href={route('personnel.dashboard')} className="flex items-center gap-2.5">
-                        <img src={logo} alt="e-Reklamo"
-                            className="h-9 w-9 object-contain rounded-full bg-white/10 p-0.5 flex-shrink-0" />
+                        <div className="h-9 w-9 rounded-full bg-white flex items-center justify-center flex-shrink-0 p-0.5">
+                            <img src={logo} alt="e-Reklamo"
+                                className="h-full w-full object-contain" />
+                        </div>
                         <span className="font-bold text-base leading-none">
                             <span className="text-emerald-400">e-</span>Reklamo
                         </span>
@@ -123,7 +125,9 @@ export default function PersonnelLayout({ children }) {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <img src={logo} alt="e-Reklamo" className="h-7 w-7 object-contain" />
+                    <div className="h-7 w-7 rounded-full bg-blue-900 flex items-center justify-center p-0.5 flex-shrink-0">
+                        <img src={logo} alt="e-Reklamo" className="h-full w-full object-contain" />
+                    </div>
                     <span className="font-bold text-sm text-blue-900">
                         <span className="text-emerald-600">e-</span>Reklamo
                     </span>

@@ -31,7 +31,7 @@ export default function Login({ status, canResetPassword }) {
                 <div className="relative z-10 w-full max-w-sm">
                     {/* Logo */}
                     <div className="text-center mb-8">
-                        <img src={logo} alt="e-Reklamo logo" className="h-16 w-16 mx-auto mb-3 object-contain" />
+                        <img src={logo} alt="e-Reklamo logo" className="h-20 w-20 mx-auto mb-3 object-contain" />
                         <h1 className="text-2xl font-bold">
                             <span className="text-emerald-600">e-</span><span className="text-blue-900">Reklamo</span>
                         </h1>

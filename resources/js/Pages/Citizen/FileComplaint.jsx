@@ -7,7 +7,7 @@ export default function FileComplaint({ departments = [] }) {
     const [categories, setCategories] = useState([]);
     const [photoPreview, setPhotoPreview] = useState([]);
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         title: '',
         description: '',
         category_id: '',
@@ -39,7 +39,14 @@ export default function FileComplaint({ departments = [] }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('citizen.complaints.store'), { forceFormData: true });
+        post(route('citizen.complaints.store'), {
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+                setCategories([]);
+                setPhotoPreview([]);
+            },
+        });
     };
 
     return (

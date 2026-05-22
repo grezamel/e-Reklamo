@@ -42,13 +42,12 @@ The personnel portal is intentionally hidden at `/personnel/login` to prevent ac
 
 ## Screenshots
 
-Place screenshots in a `docs/screenshots/` folder and reference them here. Recommended screenshots:
-
 | Screen | File |
 |--------|------|
 | Citizen login page | `docs/screenshots/citizen-login.png` |
 | Citizen register page | `docs/screenshots/citizen-register.png` |
 | Citizen dashboard | `docs/screenshots/citizen-dashboard.png` |
+| Complaint List | `docs/screenshots/citizen-complaint-list.png` |
 | File complaint form | `docs/screenshots/file-complaint.png` |
 | Complaint detail & timeline | `docs/screenshots/complaint-detail.png` |
 | Personnel login page | `docs/screenshots/personnel-login.png` |
@@ -56,8 +55,7 @@ Place screenshots in a `docs/screenshots/` folder and reference them here. Recom
 | Complaints management list | `docs/screenshots/complaints-list.png` |
 | Analytics report | `docs/screenshots/analytics.png` |
 | Manage personnel (admin) | `docs/screenshots/manage-personnel.png` |
-
-To take screenshots: run the app locally, navigate to each page, and use your browser's screenshot tool or a tool like [Lightshot](https://app.prntscr.com/).
+| Manage user | `docs/screenshots/manage-user.png` |
 
 ---
 
