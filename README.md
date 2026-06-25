@@ -42,20 +42,53 @@ The personnel portal is intentionally hidden at `/personnel/login` to prevent ac
 
 ## Screenshots
 
-| Screen | File |
-|--------|------|
-| Citizen login page | `docs/screenshots/citizen-login.png` |
-| Citizen register page | `docs/screenshots/citizen-register.png` |
-| Citizen dashboard | `docs/screenshots/citizen-dashboard.png` |
-| Complaint List | `docs/screenshots/citizen-complaint-list.png` |
-| File complaint form | `docs/screenshots/file-complaint.png` |
-| Complaint detail & timeline | `docs/screenshots/complaint-detail.png` |
-| Personnel login page | `docs/screenshots/personnel-login.png` |
-| Personnel dashboard | `docs/screenshots/personnel-dashboard.png` |
-| Complaints management list | `docs/screenshots/complaints-list.png` |
-| Analytics report | `docs/screenshots/analytics.png` |
-| Manage personnel (admin) | `docs/screenshots/manage-personnel.png` |
-| Manage user | `docs/screenshots/manage-user.png` |
+### Citizen Login Page
+
+![Citizen Login Page](docs/screenshots/citizen-login.png)
+
+### Citizen Register Page
+
+![Citizen Register Page](docs/screenshots/citizen-register.png)
+
+### Citizen Dashboard
+
+![Citizen Dashboard](docs/screenshots/citizen-dashboard.png)
+
+### Complaint List
+
+![Complaint List](docs/screenshots/citizen-complaint-list.png)
+
+### File Complaint Form
+
+![File Complaint Form](docs/screenshots/file-complaint.png)
+
+### Complaint Detail & Timeline
+
+![Complaint Detail & Timeline](docs/screenshots/complaint-detail.png)
+
+### Personnel Login Page
+
+![Personnel Login Page](docs/screenshots/personnel-login.png)
+
+### Personnel Dashboard
+
+![Personnel Dashboard](docs/screenshots/personnel-dashboard.png)
+
+### Complaints Management List
+
+![Complaints Management List](docs/screenshots/complaints-list.png)
+
+### Analytics Report
+
+![Analytics Report](docs/screenshots/analytics.png)
+
+### Manage Personnel (Admin)
+
+![Manage Personnel (Admin)](docs/screenshots/manage-personnel.png)
+
+### Manage User
+
+![Manage User](docs/screenshots/manage-user.png)
 
 ---
 
